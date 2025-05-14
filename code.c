@@ -1,23 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
-typedef struct Node {
-    union {
-        int num;
-        char* str;
-    } data;
-    struct Node* next;
-} Node;
-
-typedef struct {
-    void* array;  // Will be either int* or char**
-    int size;
-    int isString; // 0 for integers, 1 for strings
-} DataContainer;
-
-DataContainer* readInput(FILE* file);
-void printData(DataContainer* dc);
+#include "algos.h"
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
@@ -31,28 +15,40 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    DataContainer* data = readInput(file);
-    fclose(file);
+    // Read integers into array
+    int capacity = 10;
+    int size = 0;
+    int* array = malloc(capacity * sizeof(int));
 
     int execution;
-    printf("Original input:\n");
-    printData(data);
+    
+    int num;
+    while (fscanf(file, "%d", &num) == 1) {
+        if (size >= capacity) {
+            capacity *= 2;
+            array = realloc(array, capacity * sizeof(int));
+        }
+        array[size++] = num;
+    }
+    fclose(file);
+
+    printf("Original array:\n");
+    printArray(array, size);
 
     printf("\nInput execution code:\n"
-       "1 -> Heap Operations (Min/Max Heap)\n"
-       "2 -> AVL Tree Operations\n"
-       "3 -> Basic Sorting (Insertion/Selection/Bubble)\n"
-       "4 -> Advanced Sorting (Merge/Quick)\n"
-       "5 -> Linked List Operations\n"
-       "6 -> Stack Operations\n"
-       "7 -> Queue Operations\n"
-       "8 -> Binary Tree Operations\n"
-       "9 -> Hash Table Operations\n");
+       " 1 -> Heap Operations\n"
+       " 2 -> AVL Tree Operations\n"
+       " 3 -> Basic Sorting (Insertion/Selection/Bubble)\n"
+       " 4 -> Advanced Sorting (Merge/Quick)\n"
+       " 5 -> Linked List Operations\n"
+       " 6 -> Stack Operations\n"
+       " 7 -> Queue Operations\n"
+       " 8 -> Binary Tree Operations\n"
+       " 9 -> Hash Table Operations\n");
     scanf("%d", &execution);
 
     switch(execution) {
-        //Heapify function
-        case 1:
+        case 1:     //Heapify function
             printf("\nSelect heapify option:\n 1 -> Min-heap\n 2 -> Max-heap\n");
             scanf("%d", &execution);
 
@@ -64,34 +60,36 @@ int main(int argc, char* argv[]) {
                 printf("Invalid heapify option; terminating program.\n");
 
             break;
-        
-        //AVL tree function
-        case 2:
+        case 2:     //AVL tree function
 
             break;
+        case 3:     //Basic sorting function
+            printf("\nSelect basic sorting option:\n 1 -> Insertion sort\n 2 -> Selection sort\n 3 -> Bubble sort\n");
+            scanf("%d", &execution);
 
-        //Basic sorting function
-        case 3:
+            if(execution == 1)
+                insertionSort(array, size);
+            if(execution == 2)
+                selectionSort(array, size);
+            if(execution == 3)
+                bubbleSort(array, size);
+            if(execution != 1 && execution != 2 && execution != 3)
+                printf("Invalid heapify option; terminating program.\n");
 
-            break;
-
-        //Advanced sorting function
-        case 4:
-
-            break;
-
-        //Linked list function
-        case 5:
-
-            break;
-
-        //Stack function
-        case 6:
+            printf("\nUpdated array:\n");
+            printArray(array, size);
 
             break;
+        case 4:     //Advanced sorting function
 
-        //Queue function
-        case 7:
+            break;
+        case 5:     //Linked list function
+
+            break;
+        case 6:     //Stack function
+
+            break;
+        case 7:     //Queue function
 
             break;
         default:
@@ -99,94 +97,7 @@ int main(int argc, char* argv[]) {
             break;
     }
 
-    fclose(file);
-
+    printf("\nEnd of program.\n");
+    free(array);
     return 0;
-}
-
-/* Code Expected Input & Output:
-
-1. Read input file upon file execution
-2. Denote wether input file is composed of only digits or only strings
-3. List sorting algorithms with associated "execution codes"
-
-    "1 -> Heap sort
-    2 -> AVL tree sort
-    3 -> Merge sort
-    4 -> Quick sort
-    ..."
-
-4. Sort alogirmth based on execution code
-5. Example output:
-
-    "Your original input:
-    [6, 3, 7, 8, 2, 4]
-
-    Sorted list using {algorithm}:
-    [2, 3, 4, 6, 7, 8]"
-
-
-    Other notes:
-    - File I/O in only read mode (all operations conducted in terminal)
-    - Utilize memory allocation to fullest extent
-*/
-
-// Function to read and determine input type
-DataContainer* readInput(FILE* file) {
-    DataContainer* dc = malloc(sizeof(DataContainer));
-    char buffer[100];
-    int isString = 0;
-    int capacity = 10;
-    int count = 0;
-    
-    // Read first value to determine type
-    if (fscanf(file, "%s", buffer) == 1) {
-        isString = (strspn(buffer, "0123456789-") != strlen(buffer));
-    }
-    
-    dc->isString = isString;
-    rewind(file);
-    
-    if (isString) {
-        dc->array = malloc(capacity * sizeof(char*));
-    } else {
-        dc->array = malloc(capacity * sizeof(int));
-    }
-    
-    while (fscanf(file, "%s", buffer) == 1) {
-        if (count >= capacity) {
-            capacity *= 2;
-            if (isString) {
-                dc->array = realloc(dc->array, capacity * sizeof(char*));
-            } else {
-                dc->array = realloc(dc->array, capacity * sizeof(int));
-            }
-        }
-        
-        if (isString) {
-            ((char**)dc->array)[count] = strdup(buffer);
-        } else {
-            ((int*)dc->array)[count] = atoi(buffer);
-        }
-        count++;
-    }
-    
-    dc->size = count;
-    return dc;
-}
-
-// Function to print the DataContainer
-void printData(DataContainer* dc) {
-    if (!dc) return;
-    
-    printf("[");
-    for (int i = 0; i < dc->size; i++) {
-        if (dc->isString) {
-            printf("%s", ((char**)dc->array)[i]);
-        } else {
-            printf("%d", ((int*)dc->array)[i]);
-        }
-        if (i < dc->size - 1) printf(", ");
-    }
-    printf("]\n");
 }
