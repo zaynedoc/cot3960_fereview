@@ -46,11 +46,10 @@ int main(int argc, char* argv[]) {
        " 2 -> AVL Tree Operations\n"
        " 3 -> Basic Sorting (Insertion/Selection/Bubble)\n"
        " 4 -> Advanced Sorting (Merge/Quick)\n"
-       " 5 -> Linked List Operations\n"
-       " 6 -> Stack Operations\n"
-       " 7 -> Queue Operations\n"
-       " 8 -> Binary Tree Operations\n"
-       " 9 -> Hash Table Operations\n");
+       " 5 -> Stack Operations\n"
+       " 6 -> Queue Operations\n"
+       " 7 -> Binary Tree Operations\n"
+       " 8 -> Hash Table Operations\n");
     scanf("%d", &execution);
 
     switch(execution) {
@@ -106,21 +105,7 @@ int main(int argc, char* argv[]) {
             printf("\nUpdated array:\n");
             printArray(array, size);
             break;
-        case 5:     // !Linked list function
-            printf("\nSelect linked list operation:\n 1 -> PLACEHOLDER\n 2 -> PLACEHOLDER\n");
-            scanf("%d", &execution);
-
-            if (execution > 2 || execution < 1) {
-                printf("\nInvalid linked list operation; terminating program.\n");
-                return 1;
-            } else if (execution == 1) {
-                //
-            } else if (execution == 2) {
-                //
-            }
-
-            break;
-        case 6:     // Stack function
+        case 5:     // Stack function
             printf("\nSelect queue operation:\n 1 -> Array implementation\n 2 -> Linked list implementation\n");
             scanf("%d", &execution);
 
@@ -213,7 +198,7 @@ int main(int argc, char* argv[]) {
                 //destroyStack
             }
             break;
-        case 7:     // Queue function
+        case 6:     // Queue function
             printf("\nSelect queue operation:\n 1 -> Array implementation\n 2 -> Linked list implementation\n");
             scanf("%d", &execution);
 
@@ -307,10 +292,25 @@ int main(int argc, char* argv[]) {
             }
 
             break;
-        case 8:     // !Binary tree function
+        case 7:     // Binary tree function
+            printf("\nCreating Binary Search Tree from array...\n");
+            TreeNode* root = NULL;
+            
+            for (int i = 0; i < size; i++) {
+                root = insertBST(root, array[i]);
+            }
+            
+            // Print the resulting tree
+            printTree(root);
 
+            // Print the sum of the resulting tree
+            int sum = treeSum(root);
+            printf("\nSum of all nodes: %d\n", sum);
+            
+            // Clean up
+            destroyTree(root);
             break;
-        case 9:     // !Hash table function
+        case 8:     // !Hash table function
 
             break;
         default:

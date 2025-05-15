@@ -25,11 +25,11 @@
 - Tries (as of writing this)
 
 # How to run:
-In the terminal:
+In the terminal:<br>
 run ```./run test/integers.txt```
 
-If you add any test input files into the test folder:
+If you add any test input files into the test folder:<br>
 run ```./run test/[FILENAME].txt```
 
-If you edit any code within the C files, to compile:
+If you edit any code within the C files, to compile:<br>
 run ```make```
