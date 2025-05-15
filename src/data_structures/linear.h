@@ -34,7 +34,7 @@ void pushStackL(LStack* stack, int data);
 int popStackL(LStack* stack);
 int peaStackkL(LStack* stack);
 int emptyStackL(LStack* stack);
-LStack *createLStack(int size);
+LStack *createLStack();
 void destroyLStack(LStack* stack);
 void printLStack(LStack* stack);
 

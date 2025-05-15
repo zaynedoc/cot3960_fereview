@@ -32,28 +32,90 @@ typedef struct {
 
 
 
-void pushStackL(LStack* stack, int data) {
-    return stack;
-}
-
-int popStackL(LStack* stack) {
-    return -1;
-}
-
-int peakStackL(LStack* stack) {
-    return -1;
+LStack *createLStack(void) {
+    LStack* stack = (LStack* )malloc(sizeof(LStack));
+    stack->top = NULL;                  // Empty stack
+    return stack;                       // Notice, unlike array stacks, there is no capacity-limit for amount of nodes
 }
 
 int emptyStackL(LStack* stack) {
-    return -1;
+    if (stack->top == NULL) {
+        return 1;
+    }
+    return 0;
 }
 
-LStack *createLStack(void) {
 
+void pushStackL(LStack* stack, int data) {
+    Node* node = (Node* )malloc(sizeof(Node));
+    node->data = data;
+    node->next = stack->top;            // New top node points to previous top node
+    stack->top = node;                  // New node becomes top node
+
+    /* Visual of push[8] > pushStackL(stack, 8);
+
+        data            >       data
+        [3] <- top              [8] <- new top node
+         v                       v
+        [6]             >       [3] <- previous top node
+         v                       v
+        [0]                     [6]
+         v                       v
+        [5]             >       [0]
+         v                       v
+        NULL                    [5]
+                                 v
+                        >       NULL
+    
+    Nodes in a linked list stack point downwards; top node points to 2nd highest in stack, and so on
+    In this type of stack, the top node will never be the node->next of another node, unless a new node is being pushed
+    The bottom node will point to NULL
+    */
+}
+
+int popStackL(LStack* stack) {
+    if (emptyStackL(stack)) {              // Can't pop a node if there are no nodes
+        return INT_MIN;
+    }
+
+    int data = stack->top->data;
+    Node* temp = stack->top;
+    stack->top = stack->top->next;
+    free(temp);
+
+    return data;                        // Return value of popped node
+}
+
+int peakStackL(LStack* stack) {
+    if (!emptyStackL(stack)) {              // Can't return a value of a node if there are no nodes
+        return stack->top->data;
+    }
+    return INT_MIN;
 }
 
 void destroyLStack(LStack* stack) {
-    return stack;
+    Node* temp;
+    while (temp != NULL) {
+        temp = stack->top;
+        stack->top = stack->top->next;      // In a sense, stack->top is another name for a specific node, without calling it "Node" (side note for me)
+        free(temp);                         // Because we moved the top node down the stack, we can free temp since it's holding onto the old top node
+    }
+    free(stack);                            // Free the placeholder of the stack once all nodes are freed
+}
+
+void printLStack(LStack* stack) {
+    Node* temp = stack->top;
+
+    if (!emptyStackL(stack)) {
+        while (temp->next != NULL) {            // Slight adjustment, saying "have temp keep going until it sees the next node is NULL (the last node)"
+            printf("[%d]\n v\n", temp->data);
+            temp = temp->next;
+        }
+
+        printf("[%d]\n", temp->data);           // Print the final node, just without the arrow visual from the loop
+    } else {
+        printf("Stack is empty\n");
+    }
 }
 
 

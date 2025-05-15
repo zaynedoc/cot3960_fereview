@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
     scanf("%d", &execution);
 
     switch(execution) {
-        case 1:     //Heapify function
+        case 1:     // !Heapify function
             printf("\nSelect heap operation:\n 1 -> Min-heap\n 2 -> Max-heap\n");
             scanf("%d", &execution);
 
@@ -68,10 +68,10 @@ int main(int argc, char* argv[]) {
             }
             
             break;
-        case 2:     //AVL tree function
+        case 2:     // !AVL tree function
 
             break;
-        case 3:     //Basic sorting function
+        case 3:     // Basic sorting function
             printf("\nSelect sorting option:\n 1 -> Insertion sort\n 2 -> Selection sort\n 3 -> Bubble sort\n");
             scanf("%d", &execution);
 
@@ -90,7 +90,7 @@ int main(int argc, char* argv[]) {
             printArray(array, size);
 
             break;
-        case 4:     //Advanced sorting function
+        case 4:     // Advanced sorting function
             printf("\nSelect sorting option:\n 1 -> Merge sort\n 2 -> Quick sort\n");
             scanf("%d", &execution);
 
@@ -106,7 +106,7 @@ int main(int argc, char* argv[]) {
             printf("\nUpdated array:\n");
             printArray(array, size);
             break;
-        case 5:     //Linked list function
+        case 5:     // !Linked list function
             printf("\nSelect linked list operation:\n 1 -> PLACEHOLDER\n 2 -> PLACEHOLDER\n");
             scanf("%d", &execution);
 
@@ -120,7 +120,7 @@ int main(int argc, char* argv[]) {
             }
 
             break;
-        case 6:     //Stack function
+        case 6:     // Stack function
             printf("\nSelect queue operation:\n 1 -> Array implementation\n 2 -> Linked list implementation\n");
             scanf("%d", &execution);
 
@@ -172,14 +172,14 @@ int main(int argc, char* argv[]) {
 
                 //destroyStack
             } else if (execution == 2) {                 // Linked list stack operations:
-                //createStack
+                LStack* stack = createLStack();
 
                 for (int i = 0; i < size; i++) {
-                    //push
+                    pushStackL(stack, array[i]);
                 }
 
                 printf("\nOriginal array as stack:\n");
-                //printStack
+                printLStack(stack);
 
                 while (loopOperation == 1) {
                     printf("\nSelect queue operation:\n 1 -> Pop\n 2 -> Push\n 3 -> End\n");
@@ -188,23 +188,23 @@ int main(int argc, char* argv[]) {
                     if (execution > 3 || execution < 1) {
                         printf("\nInvalid stack operation\n");
                     } else if (execution == 1) {
-                        if (true) { //isEmptyL(stack)
+                        if (emptyStackL(stack)) {
                             printf("\nUnable to pop; stack is empty\n");
                         } else {
                             printf("\nPopping front element...\n");
-                            //int popped = popped(stack);
-                            //printf("Dequeued: %d\n", popped);
+                            int popped = popStackL(stack);
+                            printf("Popped: %d\n", popped);
                             
                             printf("\nCurrent Stack:\n");
-                            //printStack
+                            printLStack(stack);
                         }
                     } else if (execution == 2) {
                         printf("\nEnter value to push: ");
-                        //scanf("%d", &value);
-                        //pushA(stack, value);
+                        scanf("%d", &value);
+                        pushStackL(stack, value);
 
                         printf("\nCurrent Stack:\n");
-                        //printStack
+                        printLStack(stack);
                     } else if (execution == 3) {
                         loopOperation = 0;
                     }
@@ -213,7 +213,7 @@ int main(int argc, char* argv[]) {
                 //destroyStack
             }
             break;
-        case 7:     //Queue function
+        case 7:     // Queue function
             printf("\nSelect queue operation:\n 1 -> Array implementation\n 2 -> Linked list implementation\n");
             scanf("%d", &execution);
 
@@ -307,10 +307,10 @@ int main(int argc, char* argv[]) {
             }
 
             break;
-        case 8:     //Binary tree function
+        case 8:     // !Binary tree function
 
             break;
-        case 9:     //Hash table function
+        case 9:     // !Hash table function
 
             break;
         default:
