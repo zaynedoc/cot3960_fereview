@@ -15,18 +15,36 @@ typedef struct {
 } AQueue;       // Array Queue
 
 typedef struct {
-    Node* top;
-} Stack;
+    Node *top;
+} LStack;       // Linked List Stack
+
+typedef struct {
+    int top;
+    int size;
+    int *array;
+} AStack;       // Array Stack
 
 // Linked List operations
 Node* insertNode(Node* head, int value);
 Node* deleteNode(Node* head, int value);
 void printList(Node* head);
 
-// Stack operations
-void push(Stack* s, int value);
-int pop(Stack* s);
-int peek(Stack* s);
+// Linked List Stack operations
+void pushStackL(LStack* stack, int data);
+int popStackL(LStack* stack);
+int peaStackkL(LStack* stack);
+int emptyStackL(LStack* stack);
+LStack *createLStack(void);
+void destroyLStack(LStack* stack);
+
+// Array Stack operations
+void pushStackA(AStack* stack, int data);
+int popStackA(AStack* stack);
+int peakStackA(AStack* stack);
+int emptyStackA(AStack* stack);
+int fullStackA(AStack* stack);
+AStack *createAStack(void);
+void destroyAStack(AStack* stack);
 
 // Linked List Queue operations
 void enqueueL(LQueue* queue, int data);

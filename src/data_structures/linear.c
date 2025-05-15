@@ -20,36 +20,164 @@ typedef struct {
 } AQueue;       // Array Queue
 
 typedef struct {
-    Node* top;
-} Stack;
+    Node *top;
+} LStack;       // Linked List Stack
 
+typedef struct {
+    int top;
+    int size;
+    int *array;
+} AStack;       // Array Stack
+
+
+
+
+void pushStackL(LStack* stack, int data) {
+    return stack;
+}
+
+int popStackL(LStack* stack) {
+    return -1;
+}
+
+int peakStackL(LStack* stack) {
+    return -1;
+}
+
+int emptyStackL(LStack* stack) {
+    return -1;
+}
+
+LStack *createLStack(void) {
+
+}
+
+void destroyLStack(LStack* stack) {
+    return stack;
+}
+
+
+
+
+void pushStackA(AStack* stack, int data) {
+    return stack;
+}
+
+int popStackA(AStack* stack) {
+    return -1;
+}
+
+int peakStackA(AStack* stack) {
+    return -1;
+}
+
+int emptyStackA(AStack* stack) {
+    return -1;
+}
+
+int fullStackA(AStack* stack) {
+    return -1;
+}
+
+AStack *createAStack(void) {
+
+}
+
+void destroyAStack(AStack* stack) {
+    return stack;
+}
+
+
+
+
+int emptyL(LQueue* queue) {
+    if (queue->head == NULL) {
+        return 1;
+    } else {
+        return 0;
+    }
+}
+
+// Circular linked list queues are like an ouroboros
 void enqueueL(LQueue* queue, int data) {
-
+    if(emptyL(queue)) {
+        queue->head = malloc(sizeof(Node));
+        queue->head->data = data;
+        queue->head->next = queue->head;        // Queue is empty, therefore 1st node is both head & tail
+        queue->tail = queue->head;
+    } else {
+        Node* temp = malloc(sizeof(Node));
+        temp->data = data;
+        temp->next = queue->head;               // Enqueued node will become the last in queue, meaning it points to the head (ciruclar queue)
+        queue->tail->next = temp;               // Next node of current tail node is given data values
+        queue->tail = temp;                     // And then tail is adjusted
+    }
 }
 
 int dequeueL(LQueue* queue) {
+    if (!emptyL(queue)) {
+        int data = queue->head->data;       // So you know what value was removed from queue
 
+        if (queue->head != queue->tail) {
+            Node* temp = queue->head;           // Save the current front as temp
+
+            queue->head = queue->head->next;    // Move head up one node
+            queue->tail->next = queue->head;    // Point tail to new head
+
+            free(temp);                         // Now that the previous head was separated, free the dequeued node
+        } else {
+            free(queue->head);
+
+            queue->head = NULL;
+            queue->tail = NULL;
+        }
+
+        return data;
+    }
+
+    return -1;
 }
 
 int frontL(LQueue* queue) {
-
-}
-
-int emptyL(LQueue* queue) {
-
+    return queue->head->data;
 }
 
 LQueue* createLQueue(void) {
-
+    LQueue* queue = malloc(sizeof(LQueue));
+    queue->head = NULL;
+    queue->tail = NULL;
+    return queue;
 }
 
 void destroyLQueue(LQueue* queue) {
+    Node* temp = queue->head;
 
+    while (temp != queue->tail) {               // Until temp reaches the end of queue
+        queue->head = queue->head->next;        // Move head to next node
+        free(temp);                             // temp is the previous head, so remove it
+        temp = queue->head;                     // Move temp up to new head
+    }
+
+    free(temp);
+    free(queue);
 }
 
 void printLQueue(LQueue* queue) {
+    if (emptyL(queue)) {
+        printf("Queue is empty\n");
+        return;
+    }
 
+    Node* temp = queue->head;           // Temporary node at start of queue
+
+    while (temp != queue->tail) {       // While temp node is not the tail
+        printf("%d -> ", temp->data);
+        temp = temp->next;              // Iterate up the queue
+    }
+
+    printf("%d\n", temp->data);         // Prints once temp node at the tail
 }
+
 
 
 
@@ -112,6 +240,7 @@ void printAQueue(AQueue* queue) {
         printf("Queue is empty\n");
         return;
     }
+
     for (int i = 0; i <= queue->rear; i++) {
         if (i != queue->rear)
             printf("%d-->", queue->array[i]);
