@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include "src/algorithms/algos.h"
 #include "src/data_structures/linear.h"
 #include "src/data_structures/heap.h"
@@ -25,6 +24,8 @@ int main(int argc, char* argv[]) {
     int* array = malloc(capacity * sizeof(int));
 
     int execution;
+    int loopOperation = 1;      // Default to on
+    int value;                  // Changed from int* value to int value
     
     int num;
     while (fscanf(file, "%d", &num) == 1) {
@@ -105,16 +106,16 @@ int main(int argc, char* argv[]) {
             printArray(array, size);
             break;
         case 5:     //Linked list function
-            printf("\nSelect linked list operation:\n 1 -> Min-heap\n 2 -> Max-heap\n");
+            printf("\nSelect linked list operation:\n 1 -> PLACEHOLDER\n 2 -> PLACEHOLDER\n");
             scanf("%d", &execution);
 
             if(execution > 2 || execution < 1) {
                 printf("\nInvalid linked list operation; terminating program.\n");
                 return 1;
             } else if(execution == 1) {
-                //Min-heap placeholder
+                //
             } else if(execution == 2) {
-                //Max-heap placeholder
+                //
             }
 
             break;
@@ -122,6 +123,59 @@ int main(int argc, char* argv[]) {
 
             break;
         case 7:     //Queue function
+            printf("\nSelect queue operation:\n 1 -> Array implementation\n 2 -> Linked list implementation\n");
+            scanf("%d", &execution);
+
+            if(execution > 2 || execution < 1) {
+                printf("\nInvalid queue operation; terminating program.\n");
+                return 1;
+            } else if(execution == 1) {                 // Array queue operations:
+                AQueue* queue = createAQueue(size);
+                printf("\nOriginal array as queue:\n");
+                
+                for (int i = 0; i < size; i++) {
+                    enqueueA(queue, array[i]);
+                }
+
+                printAQueue(queue);
+                
+                while (loopOperation == 1) {
+                    printf("\nSelect queue operation:\n 1 -> Dequeue\n 2 -> Enqueue\n 3 -> End\n");
+                    scanf("%d", &execution);
+
+                    if(execution > 3 || execution < 1) {
+                        printf("\nInvalid queue operation; terminating program.\n");
+                    } else if (execution == 1) {
+                        if (emptyA(queue)) {
+                            printf("\nUnable to dequeue; queue is empty\n");
+                        } else {
+                            printf("\nDequeuing an element...\n");
+                            int removed = dequeueA(queue);
+                            printf("Dequeued: %d\n", removed);
+                            
+                            printf("\nCurrent Queue:\n");
+                            printAQueue(queue);
+                        }
+                    } else if (execution == 2) {
+                        if (fullA(queue)) {
+                            printf("\nUnable to enqueue; queue is full\n");
+                        } else {
+                            printf("\nEnter value to enqueue: ");
+                            scanf("%d", &value);
+                            enqueueA(queue, value);
+                            printf("\nCurrent Queue:\n");
+                            printAQueue(queue);
+                        }
+                    } else if (execution == 3) {
+                        loopOperation = 0;
+                    }
+
+                }
+                
+                destroyAQueue(queue);
+            } else if(execution == 2) {                 // Linked list queue operations:
+                
+            }
 
             break;
         case 8:     //Binary tree function
