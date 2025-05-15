@@ -52,36 +52,53 @@ int main(int argc, char* argv[]) {
             printf("\nSelect heapify option:\n 1 -> Min-heap\n 2 -> Max-heap\n");
             scanf("%d", &execution);
 
-            if(execution == 1)
+            if(execution > 2 || execution < 1) {
+                printf("\nInvalid heapify option; terminating program.\n");
+                return 1;
+            } else if(execution == 1) {
                 //Min-heap placeholder
-            if(execution == 2)
+            } else if(execution == 2) {
                 //Max-heap placeholder
-            if(execution != 1 && execution != 2)
-                printf("Invalid heapify option; terminating program.\n");
-
+            }
+            
             break;
         case 2:     //AVL tree function
 
             break;
         case 3:     //Basic sorting function
-            printf("\nSelect basic sorting option:\n 1 -> Insertion sort\n 2 -> Selection sort\n 3 -> Bubble sort\n");
+            printf("\nSelect sorting option:\n 1 -> Insertion sort\n 2 -> Selection sort\n 3 -> Bubble sort\n");
             scanf("%d", &execution);
 
-            if(execution == 1)
+            if(execution > 3 || execution < 1) {
+                printf("\nInvalid sorting option; terminating program.\n");
+                return 1;
+            } else if(execution == 1) {
                 insertionSort(array, size);
-            if(execution == 2)
+            } else if(execution == 2) {
                 selectionSort(array, size);
-            if(execution == 3)
+            } else if(execution == 3) {
                 bubbleSort(array, size);
-            if(execution != 1 && execution != 2 && execution != 3)
-                printf("Invalid heapify option; terminating program.\n");
-
+            }
+            
             printf("\nUpdated array:\n");
             printArray(array, size);
 
             break;
         case 4:     //Advanced sorting function
+            printf("\nSelect sorting option:\n 1 -> Merge sort\n 2 -> Quick sort\n");
+            scanf("%d", &execution);
 
+            if(execution > 2 || execution < 1) {
+                printf("\nInvalid sorting option; terminating program.\n");
+                return 1;
+            } else if(execution == 1) {
+                mergeSort(array, size);
+            } else if(execution == 2) {
+                quickSort(array, size);
+            }
+
+            printf("\nUpdated array:\n");
+            printArray(array, size);
             break;
         case 5:     //Linked list function
 
@@ -93,7 +110,8 @@ int main(int argc, char* argv[]) {
 
             break;
         default:
-            printf("Invalid argument; terminating program.\n");
+            printf("\nInvalid argument; terminating program.\n");
+            return 1;
             break;
     }
 
