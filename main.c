@@ -128,14 +128,14 @@ int main(int argc, char* argv[]) {
                 printf("\nInvalid stack operation; terminating program\n");
                 return 1;
             } else if (execution == 1) {                 // Array stack operations:
-                //createStack
+                AStack* stack = createAStack(size);
 
-                for (int i = 0; i < size; i++) {
-                    //push
+                for (int i = 0; i < size - 1; i++) {        // Last in first out 
+                    pushStackA(stack, array[i]);        // First index becomes bottom of stack; vice versa
                 }
 
                 printf("\nOriginal array as stack:\n");
-                //printStack
+                printAStack(stack);
 
                 while (loopOperation == 1) {
                     printf("\nSelect queue operation:\n 1 -> Pop\n 2 -> Push\n 3 -> End\n");
@@ -144,26 +144,26 @@ int main(int argc, char* argv[]) {
                     if (execution > 3 || execution < 1) {
                         printf("\nInvalid stack operation\n");
                     } else if (execution == 1) {
-                        if (true) { //isEmptyA(stack)
+                        if (emptyStackA(stack)) {
                             printf("\nUnable to pop; stack is empty\n");
                         } else {
                             printf("\nPopping front element...\n");
-                            //int popped = popped(stack);
-                            //printf("Dequeued: %d\n", popped);
+                            int popped = popStackA(stack);
+                            printf("Popped: %d\n", popped);
                             
                             printf("\nCurrent Stack:\n");
-                            //printStack
+                            printAStack(stack);
                         }
                     } else if (execution == 2) {
-                        if (true) { //isFullA(stack)
+                        if (fullStackA(stack)) {
                             printf("\nUnable to push; stack is full\n");
                         } else {
                             printf("\nEnter value to push: ");
-                            //scanf("%d", &value);
-                            //pushA(stack, value);
+                            scanf("%d", &value);
+                            pushStackA(stack, value);
 
                             printf("\nCurrent Stack:\n");
-                            //printStack
+                            printAStack(stack);
                         }
                     } else if (execution == 3) {
                         loopOperation = 0;
@@ -314,7 +314,7 @@ int main(int argc, char* argv[]) {
 
             break;
         default:
-            printf("\nInvalid argument; terminating program.\n");
+            printf("\nInvalid argument; terminating program\n");
             return 1;
             break;
     }

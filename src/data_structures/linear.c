@@ -59,32 +59,75 @@ void destroyLStack(LStack* stack) {
 
 
 
-void pushStackA(AStack* stack, int data) {
+AStack *createAStack(int size) {
+    AStack* stack = (AStack* )malloc(sizeof(AStack));
+    stack->size = size;                                         // The fixed, maximum capacity
+    stack->top = -1;                                            // Index value for the first node
+    stack->array = (int*)malloc(sizeof(int) * stack->size);     // Memory allocated = int * number of items in array
     return stack;
-}
-
-int popStackA(AStack* stack) {
-    return -1;
-}
-
-int peakStackA(AStack* stack) {
-    return -1;
 }
 
 int emptyStackA(AStack* stack) {
-    return -1;
+    if (stack->top == -1) {     // If top index is -1 (DNE)
+        return 1;               // Empty; true
+    }
+    return 0;                   // Not empty; false
 }
 
 int fullStackA(AStack* stack) {
-    return -1;
+    if (stack->top == stack->size - 1) {    // If top index is equal to length of stack
+        return 1;                           // Full; true
+    }
+    return 0;                               // Not full; false
 }
 
-AStack *createAStack(void) {
+void pushStackA(AStack* stack, int data) {
+    if (fullStackA(stack)) {
+        return;
+    }
+    stack->array[++stack->top] = data;      // Pre-increment is fine, but make sure top starts at -1
+    /* Visual of push[8]
 
+        i   data            >      i   data
+        4   [3] <- top             5   [8] <- new top
+        3   [6]             >      4   [3] <- previous top
+        2   [0]                    3   [6]
+        1   [5]             >      2   [0]
+        0   [1]                    1   [5]
+                            >      0   [1]
+    
+    stack->top will always be the highest index in the stack
+    */
+}
+
+int popStackA(AStack* stack) {
+    if (emptyStackA(stack)) {
+        return INT_MIN;
+    }
+    return stack->array[stack->top--];      // Index lower from previous top value
+}
+
+int peakStackA(AStack* stack) {
+    if (emptyStackA(stack)) {
+        return INT_MIN;
+    }
+    return stack->array[stack->top];        // Return current top value
 }
 
 void destroyAStack(AStack* stack) {
-    return stack;
+    free(stack->array);         // Free the list of values
+    free(stack);                // Free the stack itself
+}
+
+void printAStack(AStack* stack) {
+    if (emptyStackA(stack)) {
+        printf("Stack is empty\n");
+        return;
+    }
+
+    for (int i = stack->top; i >= 0; i--) {    // Changed from i >= -1 to i >= 0
+        printf("[%d]\n", stack->array[i]);
+    }
 }
 
 

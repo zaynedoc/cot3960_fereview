@@ -34,8 +34,9 @@ void pushStackL(LStack* stack, int data);
 int popStackL(LStack* stack);
 int peaStackkL(LStack* stack);
 int emptyStackL(LStack* stack);
-LStack *createLStack(void);
+LStack *createLStack(int size);
 void destroyLStack(LStack* stack);
+void printLStack(LStack* stack);
 
 // Array Stack operations
 void pushStackA(AStack* stack, int data);
@@ -43,8 +44,9 @@ int popStackA(AStack* stack);
 int peakStackA(AStack* stack);
 int emptyStackA(AStack* stack);
 int fullStackA(AStack* stack);
-AStack *createAStack(void);
+AStack *createAStack(int size);
 void destroyAStack(AStack* stack);
+void printAStack(AStack* stack);
 
 // Linked List Queue operations
 void enqueueL(LQueue* queue, int data);
