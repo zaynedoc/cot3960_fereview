@@ -1,7 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "algos.h"
+#include "src/algorithms/algos.h"
+#include "src/data_structures/linear.h"
+#include "src/data_structures/heap.h"
+#include "src/data_structures/tree.h"
+#include "src/hash/hash.h"
 
 int main(int argc, char* argv[]) {
     if (argc != 2) {
@@ -49,11 +53,11 @@ int main(int argc, char* argv[]) {
 
     switch(execution) {
         case 1:     //Heapify function
-            printf("\nSelect heapify option:\n 1 -> Min-heap\n 2 -> Max-heap\n");
+            printf("\nSelect heap operation:\n 1 -> Min-heap\n 2 -> Max-heap\n");
             scanf("%d", &execution);
 
             if(execution > 2 || execution < 1) {
-                printf("\nInvalid heapify option; terminating program.\n");
+                printf("\nInvalid heap operation; terminating program.\n");
                 return 1;
             } else if(execution == 1) {
                 //Min-heap placeholder
@@ -101,12 +105,29 @@ int main(int argc, char* argv[]) {
             printArray(array, size);
             break;
         case 5:     //Linked list function
+            printf("\nSelect linked list operation:\n 1 -> Min-heap\n 2 -> Max-heap\n");
+            scanf("%d", &execution);
+
+            if(execution > 2 || execution < 1) {
+                printf("\nInvalid linked list operation; terminating program.\n");
+                return 1;
+            } else if(execution == 1) {
+                //Min-heap placeholder
+            } else if(execution == 2) {
+                //Max-heap placeholder
+            }
 
             break;
         case 6:     //Stack function
 
             break;
         case 7:     //Queue function
+
+            break;
+        case 8:     //Binary tree function
+
+            break;
+        case 9:     //Hash table function
 
             break;
         default:

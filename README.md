@@ -1,2 +1,25 @@
-# cot3960_fereview
-UCF's Foundations Exam coding review in C
+# UCF Foundation Exam (COT3960) Coding Review
+
+# Topics that are covered in this code:
+- Dynamic memory allocation
+- Linked lists
+- Abstract data structures (stacks & queues)
+- Advanced data structures (hash tables & binary heaps)
+- Binary search trees
+- AVL trees
+- Sorting algorithms (insertion, selection, bubble, merge, & quick sort)
+- Recursion
+- Best & worst case scenarios (in O(n) terms, written in the comments)
+
+# Topics that are NOT covered in this code:
+- Timing questions
+- New problem analysis
+- Summations and reccurence relations
+- Infix and postfix conversion
+- Base conversion
+- Bitwise operators
+- Summations and reccurence relations
+- Permutation
+- Floodfill
+- AVL & BST visualizations (as of writing this)
+- Tries (as of writing this)
