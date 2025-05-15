@@ -23,3 +23,13 @@
 - Floodfill
 - AVL & BST visualizations (as of writing this)
 - Tries (as of writing this)
+
+# How to run:
+In the terminal:
+run ```./run test/integers.txt```
+
+If you add any test input files into the test folder:
+run ```./run test/[FILENAME].txt```
+
+If you edit any code within the C files, to compile:
+run ```make```
