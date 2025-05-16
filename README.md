@@ -6,9 +6,9 @@ This code goes over most of Computer Science 1 (COP3502C) course material
 - Recursion
 - Abstract data structures (stacks & queues) & visuals
 - Linked lists (embedded within topic above)
-- Advanced data structures (hash tables & binary heaps)
+- Advanced data structures (hash tables & heaps)
 - Binary search trees & visual
-- AVL trees
+- AVL trees & visual
 - Sorting algorithms (insertion, selection, bubble, merge, & quick sort)
 - Best & worst case scenarios (in O(n) terms, written in the comments)
 

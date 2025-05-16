@@ -7,6 +7,13 @@
 #include "src/data_structures/tree.h"
 #include "src/hash/hash.h"
 
+/*
+Known bugs:
+    - AVL tree delete function has a weird bug when deleting the whole tree
+    - Heaps generate a weird big number when extracting/deleting/inserting numbers
+    - Hash table function is not implemented yet
+*/
+
 int main(int argc, char* argv[]) {
     if (argc != 2) {
         printf("Usage: %s <input_file>\n", argv[0]);
@@ -52,20 +59,135 @@ int main(int argc, char* argv[]) {
        " 8 -> Hash Table Operations\n");
     scanf("%d", &execution);
 
+    //Main terminal operations (I don't recommend looking at it):
     switch(execution) {
-        case 1:     // !Heapify function
+        case 1:     // Heap function
             printf("\nSelect heap operation:\n 1 -> Min-heap\n 2 -> Max-heap\n");
             scanf("%d", &execution);
 
             if (execution > 2 || execution < 1) {
-                printf("\nInvalid heap operation; terminating program.\n");
+                printf("\nInvalid heap operation; terminating program\n");
                 return 1;
-            } else if (execution == 1) {
-                //Min-heap placeholder
-            } else if (execution == 2) {
-                //Max-heap placeholder
+            } else if (execution == 1) {                 // Min heap operations
+                Heap* heap = createHeap(size);
+                
+                for (int i = 0; i < size; i++) {
+                    insert(heap, array[i]);
+                }
+
+                printf("\nOriginal array as min heap:\n");
+                printHeap(heap);
+
+                while (loopOperation == 1) {
+                    printf("\nSelect heap operation:\n 1 -> Extract Min\n 2 -> Insert\n 3 -> Delete Key\n 4 -> End\n");
+                    scanf("%d", &execution);
+
+                    if (execution > 4 || execution < 1) {
+                        printf("\nInvalid heap operation\n");
+                    } else if (execution == 1) {
+                        printf("\nExtracting minimum element...\n");
+                        printf("Current Heap:\n");
+                        printHeap(heap);
+                        
+                        int min = extractMin(heap);
+                        printf("\nExtracted: %d\n", min);
+                        
+                        printf("\nHeap after extraction:\n");
+                        printHeap(heap);
+                    } else if (execution == 2) {     
+                        printf("\nEnter value to insert: ");
+                        scanf("%d", &value);
+
+                        printf("\nCurrent Heap:\n");
+                        printHeap(heap);
+
+                        insert(heap, value);
+
+                        printf("\nHeap after insertion:\n");
+                        printHeap(heap);
+                    } else if (execution == 3) {
+                        printf("\nEnter index to delete (0-%d): ", heap->size-1);
+                        scanf("%d", &value);
+
+                        if (value >= 0 && value < heap->size) {
+                            printf("\nCurrent Heap:\n");
+                            printHeap(heap);
+
+                            deleteKey(heap, value);
+                            printf("\nHeap after deletion:\n");
+                            printHeap(heap);
+                        } else {
+                            printf("\nInvalid index\n");
+                        }
+                    } else if (execution == 4) {
+                        loopOperation = 0;
+                    }
+                }
+                
+                free(heap->heapArray);
+                free(heap);
+            } else if (execution == 2) {                 // Max heap operations
+                Heap* heap = createHeap(size);
+                
+                for (int i = 0; i < size; i++) {
+                    insertMax(heap, array[i]);
+                }
+
+                printf("\nOriginal array as max heap:\n");
+                printHeap(heap);
+
+                while (loopOperation == 1) {
+                    printf("\nSelect heap operation:\n 1 -> Extract Max\n 2 -> Insert\n 3 -> Delete Key\n 4 -> End\n");
+                    scanf("%d", &execution);
+
+                    if (execution > 4 || execution < 1) {
+                        printf("\nInvalid heap operation\n");
+                    } else if (execution == 1) {
+                        printf("\nExtracting maximum element...\n");
+                        printf("Current Heap:\n");
+                        printHeap(heap);
+                        
+                        int max = extractMax(heap);
+                        printf("\nExtracted: %d\n", max);
+                        
+                        printf("\nHeap after extraction:\n");
+                        printHeap(heap);
+                    } else if (execution == 2) {     
+                        printf("\nEnter value to insert: ");
+                        scanf("%d", &value);
+
+                        printf("\nCurrent Heap:\n");
+                        printHeap(heap);
+
+                        insertMax(heap, value);
+
+                        printf("\nHeap after insertion:\n");
+                        printHeap(heap);
+                    } else if (execution == 3) {
+                        printf("\nEnter index to delete (0-%d): ", heap->size-1);
+                        scanf("%d", &value);
+
+                        if (value >= 0 && value < heap->size) {
+                            printf("\nCurrent Heap:\n");
+                            printHeap(heap);
+
+                            // For max heap, set to INT_MAX instead of INT_MIN
+                            heap->heapArray[value] = INT_MAX;
+                            extractMax(heap);
+
+                            printf("\nHeap after deletion:\n");
+                            printHeap(heap);
+                        } else {
+                            printf("\nInvalid index\n");
+                        }
+                    } else if (execution == 4) {
+                        loopOperation = 0;
+                    }
+                }
+                
+                free(heap->heapArray);
+                free(heap);
             }
-            
             break;
         case 2:     // AVL tree function
             {
@@ -101,13 +223,13 @@ int main(int argc, char* argv[]) {
 
                         printf("\nAdding %d from tree\nUpdating tree...\n", value);
                         insertAVL(root, value);
-                    } else if (execution == 2) {
+                    } else if (execution == 2) {    // Note: attempting to delete the whole tree has a weird bug, I'll try to fix later
                         printf("\nWhich node are you deleting? (type existing value): ");
                         scanf("%d", &value);
                         
                         while (searchAVL(root, value) == NULL) {
                             printf("Value does not exist in tree, try again\n");
-                            
+
                             printf("\nWhich node are you deleting? (type existing value): ");
                             scanf("%d", &value);
                         }
