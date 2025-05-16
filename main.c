@@ -67,8 +67,61 @@ int main(int argc, char* argv[]) {
             }
             
             break;
-        case 2:     // !AVL tree function
+        case 2:     // AVL tree function
+            {
+                AVLNode* root = NULL;
+                int value;
+                
+                for (int i = 0; i < size; i++) {
+                    root = insertAVL(root, array[i]);
+                }
 
+                while (loopOperation == 1) {
+                    printf("\nArray in AVL Tree Structure:\n");
+                    printAVLTree(root);
+
+                    printf("\nInorder Traversal: \n");
+                    inorderTraversal(root);
+
+                    printf("\n\nPostorder Traversal: \n");
+                    postorderTraversal(root);
+
+                    printf("\n\nPreorder Traversal: \n");
+                    preorderTraversal(root);
+
+                    printf("\n\nSelect operation:\n 1 -> Add Node\n 2 -> Delete Node\n 3 -> End\n");
+                    scanf("%d", &execution);
+
+                    if (execution > 3 || execution < 1) {
+                        printf("\nInvalid operation; terminating program\n");
+                        return 1;
+                    } else if (execution == 1) {
+                        printf("\nWhich node are you adding? (type existing value): ");
+                        scanf("%d", &value);
+
+                        printf("\nAdding %d from tree\nUpdating tree...\n", value);
+                        insertAVL(root, value);
+                    } else if (execution == 2) {
+                        printf("\nWhich node are you deleting? (type existing value): ");
+                        scanf("%d", &value);
+                        
+                        while (searchAVL(root, value) == NULL) {
+                            printf("Value does not exist in tree, try again\n");
+                            
+                            printf("\nWhich node are you deleting? (type existing value): ");
+                            scanf("%d", &value);
+                        }
+
+                        printf("\nDeleting %d from tree\nUpdating tree...\n", value);
+                        deleteAVLNode(root, value);
+                        
+                    } else if (execution == 3) {
+                        loopOperation = 0;
+                    }
+                }
+
+                freeAVLTree(root);
+            }
             break;
         case 3:     // Basic sorting function
             printf("\nSelect sorting option:\n 1 -> Insertion sort\n 2 -> Selection sort\n 3 -> Bubble sort\n");
@@ -106,7 +159,7 @@ int main(int argc, char* argv[]) {
             printArray(array, size);
             break;
         case 5:     // Stack function
-            printf("\nSelect queue operation:\n 1 -> Array implementation\n 2 -> Linked list implementation\n");
+            printf("\nSelect stack operation:\n 1 -> Array implementation\n 2 -> Linked list implementation\n");
             scanf("%d", &execution);
 
             if (execution > 2 || execution < 1) {
@@ -123,7 +176,7 @@ int main(int argc, char* argv[]) {
                 printAStack(stack);
 
                 while (loopOperation == 1) {
-                    printf("\nSelect queue operation:\n 1 -> Pop\n 2 -> Push\n 3 -> End\n");
+                    printf("\nSelect stack operation:\n 1 -> Pop\n 2 -> Push\n 3 -> End\n");
                     scanf("%d", &execution);
 
                     if (execution > 3 || execution < 1) {
@@ -155,7 +208,7 @@ int main(int argc, char* argv[]) {
                     }
                 }
 
-                //destroyStack
+                destroyAStack(stack);
             } else if (execution == 2) {                 // Linked list stack operations:
                 LStack* stack = createLStack();
 
@@ -167,7 +220,7 @@ int main(int argc, char* argv[]) {
                 printLStack(stack);
 
                 while (loopOperation == 1) {
-                    printf("\nSelect queue operation:\n 1 -> Pop\n 2 -> Push\n 3 -> End\n");
+                    printf("\nSelect stack operation:\n 1 -> Pop\n 2 -> Push\n 3 -> End\n");
                     scanf("%d", &execution);
 
                     if (execution > 3 || execution < 1) {
@@ -195,7 +248,7 @@ int main(int argc, char* argv[]) {
                     }
                 }
 
-                //destroyStack
+                destroyLStack(stack);
             }
             break;
         case 6:     // Queue function

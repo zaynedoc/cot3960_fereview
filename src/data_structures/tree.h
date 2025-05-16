@@ -4,7 +4,6 @@ typedef struct treenode {
     struct treenode* right;
 } TreeNode;
 
-// BST operations
 TreeNode* createNode(int value);
 TreeNode* insertBST(TreeNode* root, int value);
 void printTreeRecursive(TreeNode* root, int level);
@@ -12,3 +11,28 @@ void printTree(TreeNode* root);
 void printTabs(int n);
 int treeSum(TreeNode* root);
 void destroyTree(TreeNode* root);
+
+typedef struct node {
+    int value;
+    int height;
+    struct node* left;
+    struct node* right;
+} AVLNode;
+
+AVLNode* createAVLNode(int value);
+AVLNode* insertAVL(AVLNode* root, int value);
+AVLNode* deleteAVLNode(AVLNode* root, int value);
+AVLNode* findInorderSuccessor(AVLNode *node);
+AVLNode* searchAVL(AVLNode* , int value);
+void inorderTraversal(AVLNode* root);
+void postorderTraversal(AVLNode* root);
+void preorderTraversal(AVLNode* root);
+void freeAVLTree(AVLNode* root);
+void printAVLTree(AVLNode* root);
+void printAVLTreeRecursive(AVLNode* root, int level);
+
+int getNodeHeight(AVLNode* node);
+int maxValue(int a, int b);
+AVLNode* rotateRight(AVLNode* y);
+AVLNode* rotateLeft(AVLNode* y);
+int calculateBalanceFactor(AVLNode* node);

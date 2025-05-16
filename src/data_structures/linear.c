@@ -94,11 +94,13 @@ int peakStackL(LStack* stack) {
 }
 
 void destroyLStack(LStack* stack) {
-    Node* temp;
-    while (temp != NULL) {
-        temp = stack->top;
-        stack->top = stack->top->next;      // In a sense, stack->top is another name for a specific node, without calling it "Node" (side note for me)
-        free(temp);                         // Because we moved the top node down the stack, we can free temp since it's holding onto the old top node
+    Node* current = stack->top;
+    Node* next;
+
+    while (current != NULL) {
+        next = current->next;               // In a sense, stack->top is another name for a specific node, without calling it "Node" (side note for me)
+        free(current);                      // Because we moved the top node down the stack, we can free temp since it's holding onto the old top node
+        current = next;
     }
     free(stack);                            // Free the placeholder of the stack once all nodes are freed
 }

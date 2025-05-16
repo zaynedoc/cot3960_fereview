@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// From here to line 97 contains base code for BSTs
 typedef struct treenode {
     int value;
     struct treenode* left;
@@ -91,6 +92,264 @@ void destroyTree(TreeNode* root) {
     if (root != NULL) {
         destroyTree(root->left);
         destroyTree(root->right);
+        free(root);
+    }
+}
+
+
+
+
+//From here and on contains base code for AVL trees and operations
+typedef struct node {
+    int value;
+    int height;
+    struct node* left;
+    struct node* right;
+} AVLNode;
+
+// Helper functions relating to height calculations:
+
+// Returns the height of a node, or 0 if node is NULL
+int getNodeHeight(AVLNode* node) {
+    if (node == NULL) {
+        return 0;
+    }
+    return node->height;
+}
+
+// Returns the larger of two numbers
+int maxValue(int a, int b) {
+    if (a > b) {
+        return a;
+    }
+    return b;
+}
+
+// Balance factor = height of left subtree - height of right subtree
+int calculateBalanceFactor(AVLNode* node) {
+    if (node == NULL) {
+        return 0;
+    }
+    return getNodeHeight(node->left) - getNodeHeight(node->right);
+}
+
+// Right rotation is performed when left subtree becomes too tall
+AVLNode* rotateRight(AVLNode* y) {
+    AVLNode* x = y->left;                                                      
+    AVLNode* t2 = x->right;                                                    
+    x->right = y;                                                              
+    y->left = t2;                                                              
+
+    /* Right Rotation Example: when left subtree becomes too tall (balance > 1)
+         Initial:                After Rotation:
+             y(+2)                    x(0)
+            /   \                    /   \
+          x(+1)  c      ==>       a     y(0)
+         /   \                          /   \
+        a     t2                      t2    c
+
+        Step 1: x = y->left          (x was y's left child)
+        Step 2: t2 = x->right        (save x's right subtree)
+        Step 3: x->right = y         (y becomes x's right child)
+        Step 4: y->left = t2         (t2 becomes y's left child)
+    */
+
+    y->height = maxValue(getNodeHeight(y->left), getNodeHeight(y->right)) + 1;
+    x->height = maxValue(getNodeHeight(x->left), getNodeHeight(x->right)) + 1;
+    return x;       // Return new root
+}
+
+// Left rotation is performed when right subtree becomes too tall
+AVLNode* rotateLeft(AVLNode* x) {
+    AVLNode* y = x->right;                                                     
+    AVLNode* t2 = y->left;                                                     
+    y->left = x;                                                               
+    x->right = t2;                                                             
+
+    /* Left Rotation Example: when right subtree becomes too tall (balance < -1)
+         Initial:                After Rotation:
+           x(-2)                     y(0)
+          /   \                     /   \
+         a    y(-1)      ==>     x(0)   c
+             /   \              /   \
+            t2    c            a    t2
+
+        Step 1: y = x->right         (y was x's right child)
+        Step 2: t2 = y->left         (save y's left subtree)
+        Step 3: y->left = x          (x becomes y's left child)
+        Step 4: x->right = t2        (t2 becomes x's right child)
+    */
+
+    x->height = maxValue(getNodeHeight(x->left), getNodeHeight(x->right)) + 1;
+    y->height = maxValue(getNodeHeight(y->left), getNodeHeight(y->right)) + 1;
+    return y;   // Return new root
+}
+
+AVLNode* findInorderSuccessor(AVLNode *node) {
+    AVLNode* current = node;
+    while(current->left != NULL) {
+        current = current->left;
+    }
+    return current;
+}
+
+// Core AVL tree functions:
+AVLNode* createAVLNode(int value) {
+    AVLNode* node = (AVLNode* )malloc(sizeof(AVLNode));
+
+    node->value = value;
+    node->left = NULL;
+    node->right = NULL;
+    node->height = 1;
+    return node;
+}
+
+AVLNode* insertAVL(AVLNode* root, int value) {
+    if (root == NULL) {                 // Base case: if the AVL tree is empty
+        return createAVLNode(value);    // Create the first node
+    }                                   // Else, then make a child node
+
+    if (value < root->value) {                           // Is value to insert less than the current root value?
+        root->left = insertAVL(root->left, value);      // True: make it the left child of the root
+    }  else {
+        root->right = insertAVL(root->right, value);    // False: make it the right child of the root
+    }
+
+    // AVL tree height calculations:
+    root->height = 1 + maxValue(getNodeHeight(root->left), getNodeHeight(root->right));
+
+    // AVL tree balancing calculations:
+    int balance = calculateBalanceFactor(root);     //BF of this specific node
+
+    if (balance > 1 && value < root->left->value) {
+        return rotateRight(root);
+    }
+
+    if (balance > 1 && value > root->left->value) {
+        root->left = rotateLeft(root->left);
+        return rotateRight(root);
+    }
+
+    if (balance < -1 && value > root->right->value) {
+        return rotateLeft(root);
+    }
+
+    if (balance < -1 && value < root->right->value) {
+        return root->right = rotateRight(root->right);
+        return rotateLeft(root);
+    }
+
+    return root;
+}
+
+AVLNode* deleteAVLNode(AVLNode* root, int value) {
+    if (!root) {
+        return root;
+    }
+
+    if (value < root->value) {
+        root->left = deleteAVLNode(root->left, value);
+    } else if (value > root->value) {
+        root->right = deleteAVLNode(root->right, value);
+    } else {
+        if (!root->left || !root->right) {
+            AVLNode* temp = root->left ? root->left : root->right;
+            free(root);
+            return temp;
+        }
+
+        AVLNode* temp = findInorderSuccessor(root->right);
+        root->value = temp->value;
+        root->right = deleteAVLNode(root->right, temp->value);
+    }
+
+    root->height = 1 + maxValue(getNodeHeight(root->left), getNodeHeight(root->right));
+
+    int balance = calculateBalanceFactor(root);
+
+    if (balance > 1 && calculateBalanceFactor(root->left) >= 0) {
+        return rotateRight(root);
+    }
+
+    if (balance > 1 && calculateBalanceFactor(root->left) < 0) {
+        root->left = rotateLeft(root->left);
+        return rotateRight(root);
+    }
+
+    if (balance < -1 && calculateBalanceFactor(root->right) <= 0) {
+        return rotateLeft(root);
+    }
+
+    if (balance < -1 && calculateBalanceFactor(root->right) > 0) {
+        root->right = rotateRight(root->right);
+        return rotateLeft(root);
+    }
+
+    return root;
+}
+
+void inorderTraversal(AVLNode* root) {
+    if (root != NULL) {
+        inorderTraversal(root->left);
+        printf("%d\t", root->value);
+        inorderTraversal(root->right);
+    }
+}
+
+void postorderTraversal(AVLNode* root) {
+    if (root != NULL) {
+        postorderTraversal(root->left);
+        postorderTraversal(root->right);
+        printf("%d\t", root->value);
+    }
+}
+
+void preorderTraversal(AVLNode* root) {
+    if (root != NULL) {
+        printf("%d\t", root->value);
+        preorderTraversal(root->left);
+        preorderTraversal(root->right);
+    }
+}
+
+void printAVLTreeRecursive(AVLNode* root, int level) {
+    if (root == NULL) {
+        printTabs(level);
+        printf("NULL\n");
+        return;
+    }
+    
+    printTabs(level);
+    int bf = calculateBalanceFactor(root);
+    printf("[%d] (h=%d, bf=%d)\n", root->value, root->height, bf);
+
+    printf("L-> ");
+    printAVLTreeRecursive(root->left, level + 1);
+
+    printf("R-> ");
+    printAVLTreeRecursive(root->right, level + 1);
+}
+
+void printAVLTree(AVLNode* root) {
+    printAVLTreeRecursive(root, 0);
+}
+
+AVLNode* searchAVL(AVLNode* root, int value) {
+    while (root != NULL) {              // Traverse through tree until the root is NULL
+        if (root->value > value)
+            root = root->left;
+        else if (root->value < value)
+            root = root->right;
+        else
+            return root;
+    }
+    return NULL;
+}
+
+void freeAVLTree(AVLNode* root) {
+    if (root != NULL) {
+        freeAVLTree(root->left);
+        freeAVLTree(root->right);
         free(root);
     }
 }

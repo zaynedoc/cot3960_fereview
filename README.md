@@ -1,14 +1,15 @@
 # UCF Foundation Exam (COT3960) Coding Review
+This code goes over most of Computer Science 1 (COP3502C) course material
 
 # Topics that are covered in this code:
 - Dynamic memory allocation
-- Linked lists
-- Abstract data structures (stacks & queues)
+- Recursion
+- Abstract data structures (stacks & queues) & visuals
+- Linked lists (embedded within topic above)
 - Advanced data structures (hash tables & binary heaps)
-- Binary search trees
+- Binary search trees & visual
 - AVL trees
 - Sorting algorithms (insertion, selection, bubble, merge, & quick sort)
-- Recursion
 - Best & worst case scenarios (in O(n) terms, written in the comments)
 
 # Topics that are NOT covered in this code:
@@ -21,7 +22,6 @@
 - Summations and reccurence relations
 - Permutation
 - Floodfill
-- AVL & BST visualizations (as of writing this)
 - Tries (as of writing this)
 
 # How to run:
