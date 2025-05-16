@@ -1,3 +1,28 @@
+/*
+Runtime Complexities:
+
+Linked List Operations:
+- Insert: O(1) best/avg, O(n) worst
+- Delete: O(1) best, O(n) avg/worst
+- Print: O(n) all cases
+
+Stack Operations (both Array and Linked List):
+- Push: O(1) all cases
+- Pop: O(1) all cases
+- Peak: O(1) all cases
+
+Queue Operations:
+Array Implementation:
+- Enqueue: O(1) all cases
+- Dequeue: O(n) all cases (shift elements)
+- Front: O(1) all cases
+
+Linked List Implementation:
+- Enqueue: O(1) all cases
+- Dequeue: O(1) all cases
+- Front: O(1) all cases
+*/
+
 typedef struct Node {
     int data;
     struct Node* next;

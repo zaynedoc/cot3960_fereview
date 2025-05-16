@@ -1,3 +1,20 @@
+/*
+Runtime Complexities:
+
+Binary Search Tree Operations:
+- Insert: O(log n) best/avg, O(n) worst
+- Search: O(log n) best/avg, O(n) worst
+- Delete: O(log n) best/avg, O(n) worst
+- Traversal: O(n) all cases
+
+AVL Tree Operations:
+- Insert: O(log n) all cases
+- Delete: O(log n) all cases
+- Search: O(log n) all cases
+- Rotation: O(1) all cases
+- Traversal: O(n) all cases
+*/
+
 typedef struct treenode {
     int value;
     struct treenode* left;

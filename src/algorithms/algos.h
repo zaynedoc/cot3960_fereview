@@ -1,3 +1,32 @@
+/*
+Runtime Complexities:
+
+Insertion Sort:
+- Best case: O(n) when array is nearly sorted
+- Average case: O(n^2)
+- Worst case: O(n^2) when array is reverse sorted
+
+Selection Sort:
+- Best case: O(n^2)
+- Average case: O(n^2)
+- Worst case: O(n^2)
+
+Bubble Sort:
+- Best case: O(n) when array is already sorted
+- Average case: O(n^2)
+- Worst case: O(n^2) when array is reverse sorted
+
+Merge Sort:
+- Best case: O(n log n)
+- Average case: O(n log n)
+- Worst case: O(n log n)
+
+Quick Sort:
+- Best case: O(n log n)
+- Average case: O(n log n)
+- Worst case: O(n^2) when pivot is always smallest/largest element
+*/
+
 void printArray(int* arr, int size);
 
 void insertionSort(int* arr, int n);

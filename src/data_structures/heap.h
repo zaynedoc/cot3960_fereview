@@ -1,3 +1,17 @@
+/*
+Runtime Complexities:
+
+Min/Max Heap Operations:
+- Insert: O(log n) all cases
+- Extract Min/Max: O(log n) all cases
+- Get Min/Max: O(1) all cases
+- Decrease Key: O(log n) all cases
+- Delete: O(log n) all cases
+- Build Heap: O(n) all cases
+- Heapify: O(log n) all cases
+- Heap Sort: O(n log n) all cases
+*/
+
 #include <limits.h>
 
 typedef struct {
