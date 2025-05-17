@@ -6,11 +6,13 @@ This code goes over most of Computer Science 1 (COP3502C) course material
 - Recursion
 - Abstract data structures (stacks & queues) & visuals
 - Linked lists (embedded within topic above)
-- Advanced data structures (hash tables & heaps)
+- Advanced data structures (hash tables* & heaps)
 - Binary search trees & visual
-- AVL trees & visual
+- AVL trees & visual**
 - Sorting algorithms (insertion, selection, bubble, merge, & quick sort)
 - Best & worst case scenarios (in O(n) terms, written in the comments)
+* Heaps have not been implemented yet
+** AVL trees are currently really buggy rn
 
 # Topics that are NOT covered in this code:
 - Timing questions
@@ -26,10 +28,7 @@ This code goes over most of Computer Science 1 (COP3502C) course material
 
 # How to run:
 In the terminal:<br>
-run ```./run test/integers.txt```
-
-If you add any test input files into the test folder:<br>
-run ```./run test/[FILENAME].txt```
+run ```./run```
 
 If you edit any code within the C files, to compile:<br>
 run ```make```

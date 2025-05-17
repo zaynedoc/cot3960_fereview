@@ -185,11 +185,13 @@ AVLNode* rotateLeft(AVLNode* x) {
     return y;   // Return new root
 }
 
-AVLNode* findInorderSuccessor(AVLNode *node) {
+AVLNode* findInorderSuccessor(AVLNode* node) {
     AVLNode* current = node;
-    while(current->left != NULL) {
+    
+    // Find the leftmost node in the right subtree
+    while (current && current->left != NULL)
         current = current->left;
-    }
+    
     return current;
 }
 
@@ -243,43 +245,65 @@ AVLNode* insertAVL(AVLNode* root, int value) {
 }
 
 AVLNode* deleteAVLNode(AVLNode* root, int value) {
-    if (!root) {
-        return root;
+    // Base case
+    if (root == NULL) {
+        return NULL;
     }
 
+    // Standard BST delete
     if (value < root->value) {
         root->left = deleteAVLNode(root->left, value);
     } else if (value > root->value) {
         root->right = deleteAVLNode(root->right, value);
     } else {
-        if (!root->left || !root->right) {
+        // Node with only one child or no child
+        if (root->left == NULL || root->right == NULL) {
             AVLNode* temp = root->left ? root->left : root->right;
-            free(root);
-            return temp;
-        }
 
-        AVLNode* temp = findInorderSuccessor(root->right);
-        root->value = temp->value;
-        root->right = deleteAVLNode(root->right, temp->value);
+            // No child case
+            if (temp == NULL) {
+                temp = root;
+                root = NULL;
+            } else { // One child case
+                *root = *temp; // Copy the contents of the non-empty child
+            }
+            free(temp);
+        } else {
+            // Node with two children
+            AVLNode* temp = findInorderSuccessor(root->right);
+            root->value = temp->value;
+            root->right = deleteAVLNode(root->right, temp->value);
+        }
     }
 
+    // If the tree had only one node then return
+    if (root == NULL) {
+        return NULL;
+    }
+
+    // Update height of current node
     root->height = 1 + maxValue(getNodeHeight(root->left), getNodeHeight(root->right));
 
+    // Get the balance factor of this node to check for unbalance
     int balance = calculateBalanceFactor(root);
 
-    if (balance > 1 && calculateBalanceFactor(root->left) >= 0) {
-        return rotateRight(root);
-    }
+    // If this node becomes unbalanced, then there are 4 cases
 
+    // Left Left Case
+    if (balance > 1 && calculateBalanceFactor(root->left) >= 0)
+        return rotateRight(root);
+
+    // Left Right Case
     if (balance > 1 && calculateBalanceFactor(root->left) < 0) {
         root->left = rotateLeft(root->left);
         return rotateRight(root);
     }
 
-    if (balance < -1 && calculateBalanceFactor(root->right) <= 0) {
+    // Right Right Case
+    if (balance < -1 && calculateBalanceFactor(root->right) <= 0)
         return rotateLeft(root);
-    }
 
+    // Right Left Case
     if (balance < -1 && calculateBalanceFactor(root->right) > 0) {
         root->right = rotateRight(root->right);
         return rotateLeft(root);
